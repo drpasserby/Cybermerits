@@ -17,9 +17,9 @@
     <div class="container vh-100" id="app">
         <div class="row vh-100">
             <div class="col-5 m-auto p-5 justify-content-center">
-                <div class="mybox">
+                <div class="mybox border border-primary p-3">
                     <span v-if="merits">功德：{{merits}}<br></span>
-                    <span v-else>您还没有已经积下的功德<br></span>
+                    <span v-else>您还没有已经积下的功德<br><br></span>
                     <span v-if="lastdate">最后奉献功德日期：{{lastdate}}<br></span>
                     <button type="button" class="btn btn-outline-primary" @click="addmerits">功德+1</button>
                     <button type="button" class="btn btn-outline-primary" @click="removemerits">清空功德</button>
