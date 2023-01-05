@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>赛博功德器</title>
+    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+        .mybox{
+            width: 30em;
+            height: 15em;
+            /* background-color: red; */
+        }
+    </style>
+</head>
+<body>
+    <div class="container vh-100" id="app">
+        <div class="row vh-100">
+            <div class="col-5 m-auto p-5 justify-content-center">
+                <div class="mybox">
+                    <span v-if="merits">功德：{{merits}}<br></span>
+                    <span v-else>您还没有已经积下的功德<br></span>
+                    <span v-if="lastdate">最后奉献功德日期：{{lastdate}}<br></span>
+                    <button type="button" class="btn btn-outline-primary" @click="addmerits">功德+1</button>
+                    <button type="button" class="btn btn-outline-primary" @click="removemerits">清空功德</button>
+                    <button type="button" class="btn btn-outline-primary" @click="showlog">查看日志</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            merits:0,
+            lastdate:0,
+        },
+        methods:{
+            addmerits:function(){
+                this.merits++;
+                this.lastdate = this.getdate();
+
+                localStorage.setItem("Cybermerits",this.merits);
+                localStorage.setItem("lastdate",this.lastdate);
+            },
+            removemerits:function(){
+                if(confirm("确定要清空功德吗？")){
+                    this.merits = 0;
+                    this.lastdate = 0;
+
+                    localStorage.removeItem("Cybermerits");
+                    localStorage.removeItem("lastdate");
+                }
+                else(
+                    alert("您的功德保住了")
+                )
+            },
+            showlog:function(){
+                console.log();
+            },
+            getdate:function(){ 
+                var date = new Date();
+                var y = date.getFullYear();    
+                var m =date.getMonth()+1; 
+                var d = date.getDate();
+                var h = date.getHours();
+                var min = date.getMinutes() 
+                var s = date.getSeconds(); 
+                if(m<10){m = "0"+m;}
+                if(d<10){d = "0"+d;}
+                if(h<10){h = "0"+h;}
+                if(min<10){min = "0"+min;} 
+                if(s<10){s = "0"+s;}
+                return y+"-"+m+"-"+d+" "+h+":"+min+":"+s;  
+            }
+        },
+        mounted:function(){
+            if(localStorage.getItem("Cybermerits")){
+                this.merits = localStorage.getItem("Cybermerits");
+                this.lastdate = localStorage.getItem("lastdate");
+            }
+        }
+    })
+</script>
+<script src="js\bootstrap.bundle.min.js"></script>
+</html>
