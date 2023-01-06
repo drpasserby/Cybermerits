@@ -52,6 +52,7 @@
                 localStorage.setItem("lastdate",this.lastdate);
             },
             autoaddmerits:function(){
+                this.isAutoDDos = false;
                 if(this.isAutoadd){
                     this.isAutoadd = false;
                     clearInterval(autoadd);
@@ -63,6 +64,7 @@
                 }
             },
             ddosaddmerits:function(){
+                this.isAutoadd = false;
                 if(this.isAutoDDos){
                     this.isAutoDDos = false;
                     clearInterval(autoadd);
