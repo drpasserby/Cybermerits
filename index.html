@@ -24,7 +24,8 @@
                     <button type="button" class="btn btn-outline-primary" @click="addmerits">功德+1</button>
                     <button type="button" class="btn btn-outline-primary" @click="autoaddmerits" v-if="!isAutoadd">全自动功德开启</button>
                     <button type="button" class="btn btn-outline-danger" @click="autoaddmerits" v-else>全自动功德关闭</button>
-                    <button type="button" class="btn btn-outline-primary" @click="ddosaddmerits">对佛祖进行DDos</button>
+                    <button type="button" class="btn btn-outline-primary" @click="ddosaddmerits" v-if="!isAutoDDos">对佛祖进行DDos</button>
+                    <button type="button" class="btn btn-outline-danger" @click="ddosaddmerits" v-else>停止DDos</button><br>
                     <button type="button" class="btn btn-outline-primary" @click="removemerits">清空功德</button>
                     <button type="button" class="btn btn-outline-primary" @click="showlog">查看日志</button>
                 </div>
@@ -37,6 +38,7 @@
         el: '#app',
         data: {
             isAutoadd:false,
+            isAutoDDos:false,
             merits:0,
             lastdate:0,
             autoadd:null,
@@ -61,14 +63,20 @@
                 }
             },
             ddosaddmerits:function(){
-                if(this.isAutoadd){
-                    this.isAutoadd = false;
+                if(this.isAutoDDos){
+                    this.isAutoDDos = false;
                     clearInterval(autoadd);
                     return;
                 }
                 else{
-                    this.isAutoadd = true;
-                    autoadd = setInterval(this.addmerits,50)
+                    if(confirm("确定要对佛祖的服务器进行DDos吗？")){
+                        this.isAutoDDos = true;
+                        autoadd = setInterval(this.addmerits,50)
+                    }
+                    else{
+                        alert("佛祖的服务器安全了...");
+                        return;
+                    }
                 }
             },
             removemerits:function(){
