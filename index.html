@@ -22,6 +22,9 @@
                     <span v-else>您还没有已经积下的功德<br><br></span>
                     <span v-if="lastdate">最后奉献功德日期：{{lastdate}}<br></span>
                     <button type="button" class="btn btn-outline-primary" @click="addmerits">功德+1</button>
+                    <button type="button" class="btn btn-outline-primary" @click="autoaddmerits" v-if="!isAutoadd">全自动功德开启</button>
+                    <button type="button" class="btn btn-outline-danger" @click="autoaddmerits" v-else>全自动功德关闭</button>
+                    <button type="button" class="btn btn-outline-primary" @click="ddosaddmerits">对佛祖进行DDos</button>
                     <button type="button" class="btn btn-outline-primary" @click="removemerits">清空功德</button>
                     <button type="button" class="btn btn-outline-primary" @click="showlog">查看日志</button>
                 </div>
@@ -33,8 +36,10 @@
     var app = new Vue({
         el: '#app',
         data: {
+            isAutoadd:false,
             merits:0,
             lastdate:0,
+            autoadd:null,
         },
         methods:{
             addmerits:function(){
@@ -43,6 +48,28 @@
 
                 localStorage.setItem("Cybermerits",this.merits);
                 localStorage.setItem("lastdate",this.lastdate);
+            },
+            autoaddmerits:function(){
+                if(this.isAutoadd){
+                    this.isAutoadd = false;
+                    clearInterval(autoadd);
+                    return;
+                }
+                else{
+                    this.isAutoadd = true;
+                    autoadd = setInterval(this.addmerits,1000)
+                }
+            },
+            ddosaddmerits:function(){
+                if(this.isAutoadd){
+                    this.isAutoadd = false;
+                    clearInterval(autoadd);
+                    return;
+                }
+                else{
+                    this.isAutoadd = true;
+                    autoadd = setInterval(this.addmerits,50)
+                }
             },
             removemerits:function(){
                 if(confirm("确定要清空功德吗？")){
