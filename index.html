@@ -26,6 +26,7 @@
                     <button type="button" class="btn btn-outline-danger" @click="autoaddmerits" v-else>全自动功德关闭</button>
                     <button type="button" class="btn btn-outline-primary" @click="ddosaddmerits" v-if="!isAutoDDos">对佛祖进行DDos</button>
                     <button type="button" class="btn btn-outline-danger" @click="ddosaddmerits" v-else>停止DDos</button><br>
+                    <button type="button" class="btn btn-outline-danger" @click="stopmerits">停止所有功德</button>
                     <button type="button" class="btn btn-outline-primary" @click="removemerits">清空功德</button>
                     <button type="button" class="btn btn-outline-primary" @click="showlog">查看日志</button>
                 </div>
@@ -55,31 +56,36 @@
                 this.isAutoDDos = false;
                 if(this.isAutoadd){
                     this.isAutoadd = false;
-                    clearInterval(autoadd);
+                    clearInterval(this.autoadd);
                     return;
                 }
                 else{
                     this.isAutoadd = true;
-                    autoadd = setInterval(this.addmerits,1000)
+                    this.autoadd = setInterval(this.addmerits,1000)
                 }
             },
             ddosaddmerits:function(){
                 this.isAutoadd = false;
                 if(this.isAutoDDos){
                     this.isAutoDDos = false;
-                    clearInterval(autoadd);
+                    clearInterval(this.autoadd);
                     return;
                 }
                 else{
                     if(confirm("确定要对佛祖的服务器进行DDos吗？")){
                         this.isAutoDDos = true;
-                        autoadd = setInterval(this.addmerits,50)
+                        this.autoadd = setInterval(this.addmerits,50)
                     }
                     else{
                         alert("佛祖的服务器安全了...");
                         return;
                     }
                 }
+            },
+            stopmerits:function(){
+                this.isAutoadd = false;
+                this.isAutoDDos = false;
+                clearInterval(this.autoadd);
             },
             removemerits:function(){
                 if(confirm("确定要清空功德吗？")){
